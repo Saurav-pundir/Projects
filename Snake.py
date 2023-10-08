@@ -7,7 +7,7 @@ pygame.init()
 pygame.display.set_caption("Snake Game")
 
 SIZE = 30
-BACKGROUND_COLOR = (110,110,5)
+BACKGROUND_COLOR = (111,111,3)
 class Apple:
     def __init__(self,parent_screen) :
         self.apple = pygame.image.load("apple.png").convert_alpha()
@@ -109,7 +109,7 @@ class Game:
     def score(self):
         font = pygame.font.SysFont("arial",32,bold=5)
         score = font.render(f"Score:{self.snake.length-1}",True,(255,255,255))
-        self.surface.blit(score,(800,40))
+        self.surface.blit(score,(400,35))
 
 
     def play(self):
