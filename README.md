@@ -2,7 +2,7 @@
 - Its an 2D snake game (GUI).
 - This game is made in the python progamming language.
 - Packages included (Pygame , Random , Time) 
-- Download the necessary files from (apple.png , snake.png )
+- Download the necessary images (apple.png , square.png )
 
 **turtle_racing_game.py**
 
