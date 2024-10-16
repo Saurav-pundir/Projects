@@ -7,13 +7,13 @@ pygame.init()
 pygame.display.set_caption("Snake Game")
 
 SIZE = 30
-BACKGROUND_COLOR = (111,111,3)
+BACKGROUND_COLOR = (111,111,2)
 class Apple:
     def __init__(self,parent_screen) :
         self.apple = pygame.image.load("apple.png").convert_alpha()
         self.parent_screen = parent_screen
-        self.x = SIZE*3
-        self.y = SIZE*3
+        self.x = SIZE*2.5
+        self.y = SIZE*2.5
 
     def draw(self):
         self.parent_screen.blit(self.apple,(self.x,self.y))
@@ -21,8 +21,8 @@ class Apple:
 
     def move(self,snake_x,snake_y):
         while True:
-            new_x = random.randint(0,30)*SIZE
-            new_y = random.randint(0,20)*SIZE
+            new_x = random.randint(0,29)*SIZE
+            new_y = random.randint(0,19)*SIZE
    
             collides_with_snake = any(new_x == x and new_y == y for x, y in zip(snake_x, snake_y))
 
@@ -47,38 +47,41 @@ class snake:
         self.y.append(1)
 
 
-    def move_up(self):        
-        self.direction="up"
+    def move_up(self):
+        if self.direction != "down":
+            self.direction="up"
     def move_down(self):
-        self.direction="down"
+        if self.direction != "up":
+            self.direction="down"
     def move_left(self):
-        self.direction="left"
+        if self.direction != "right":
+            self.direction="left"
     def move_right(self):
-        self.direction="right"
+        if self.direction != "left":
+            self.direction="right"
     
 
     def walk(self):
         if self.direction=="up":
             self.y[0] -=SIZE
-            if self.y[0] <= -1:
+            if self.y[0] <= 1:
                 self.y[0] = 570
-        if self.direction=="down":
+        elif self.direction=="down":
             self.y[0] +=SIZE
             if self.y[0] >= 600:
                 self.y[0] = -1
-        if self.direction=="left":
+        elif self.direction=="left":
             self.x[0] -=SIZE
             if self.x[0] <= -1:
                 self.x[0] = 870
-        if self.direction=="right":
+        elif self.direction=="right":
             self.x[0] +=SIZE
             if self.x[0] >= 900:
                 self.x[0] = -1
 
         for i in range(self.length-1,0,-1):
             self.x[i]=self.x[i-1]
-            self.y[i]=self.y[i-1]
-            
+            self.y[i]=self.y[i-1] 
         self.draw()
 
     def draw(self):
@@ -124,26 +127,30 @@ class Game:
                 self.apple.move(self.snake.x,self.snake.y)
 
             #snake coliding with itself
-            for i in range(3,self.snake.length):
+            for i in range(2,self.snake.length):
                 if self.collision(self.snake.x[0], self.snake.y[0], self.snake.x[i], self.snake.y[i]):
                     raise Exception ("Game Over")
 
     def show_game_over(self):
         self.surface.fill(BACKGROUND_COLOR)
         font = pygame.font.SysFont('arial',35)
-        line1 = font.render(f"Game Over! Total Score:{self.snake.length}",True,(255,255,255))
+        line1 = font.render(f"Game Over! Total Score:{self.snake.length -1 }",True,(255,255,255))
         self.surface.blit(line1,(200,300))
-        line2 = font.render(f"To play again pres Enter . To exit press Escape.",True,(255,255,255))
+        line2 = font.render(f"Press Enter to play again . To exit press Escape.",True,(255,255,255))
         self.surface.blit(line2,(200,350))
         pygame.display.flip()
 
     def reset(self):
-        self.run()
+        self.snake = snake(self.surface, 2)
+        self.apple = Apple(self.surface)
+        self.surface.fill((27, 233, 245))
+        self.snake.draw()
+        self.apple.draw()
+        pygame.display.flip()
 
     def run(self):
         running = True
         pause = False
-
         while running :
             for event in pygame.event.get():
                 if event.type == QUIT:
@@ -151,8 +158,10 @@ class Game:
                 elif event.type==KEYDOWN:
                         if event.key == K_ESCAPE:
                             pygame.quit()
-                        if event.key == K_KP_ENTER:
+                            running = False
+                        if event.key == K_RETURN:
                             self.reset()
+                            pause = False
                         if event.key == K_UP:
                             self.snake.move_up()
                         if event.key == K_DOWN:
@@ -165,11 +174,10 @@ class Game:
             try :
                 if not pause:
                     self.play()
-            except Exception :
+            except Exception as e :
                 self.show_game_over()
                 pause = True
-
-
+                print(e)
             time.sleep(0.3)
         
 
