@@ -23,9 +23,8 @@ class Apple:
         while True:
             new_x = random.randint(0,29)*SIZE
             new_y = random.randint(0,19)*SIZE
-   
+            print(f"Trying new position for apple: ({new_x}, {new_y})")
             collides_with_snake = any(new_x == x and new_y == y for x, y in zip(snake_x, snake_y))
-
             if not collides_with_snake:
                 self.x = new_x
                 self.y = new_y
@@ -64,21 +63,20 @@ class snake:
     def walk(self):
         if self.direction=="up":
             self.y[0] -=SIZE
-            if self.y[0] <= 1:
+            if self.y[0] == -30:
                 self.y[0] = 570
         elif self.direction=="down":
             self.y[0] +=SIZE
             if self.y[0] >= 600:
-                self.y[0] = -1
+                self.y[0] = 0
         elif self.direction=="left":
             self.x[0] -=SIZE
-            if self.x[0] <= -1:
+            if self.x[0] == -30:
                 self.x[0] = 870
         elif self.direction=="right":
             self.x[0] +=SIZE
             if self.x[0] >= 900:
-                self.x[0] = -1
-
+                self.x[0] = 0
         for i in range(self.length-1,0,-1):
             self.x[i]=self.x[i-1]
             self.y[i]=self.y[i-1] 
