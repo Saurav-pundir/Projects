@@ -15,5 +15,5 @@
 * Now you simply need to execute file.
   * **Command: python Snake.py**
 
- ### Hope You enjoy the Game ! ###
+ ### Hope You enjoy the Game ! ❤️ ###
 
