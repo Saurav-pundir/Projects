@@ -23,7 +23,6 @@ class Apple:
         while True:
             new_x = random.randint(0,29)*SIZE
             new_y = random.randint(0,19)*SIZE
-            print(f"Trying new position for apple: ({new_x}, {new_y})")
             collides_with_snake = any(new_x == x and new_y == y for x, y in zip(snake_x, snake_y))
             if not collides_with_snake:
                 self.x = new_x
