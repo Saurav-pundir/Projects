@@ -12,8 +12,8 @@ class Apple:
     def __init__(self,parent_screen) :
         self.apple = pygame.image.load("apple.png").convert_alpha()
         self.parent_screen = parent_screen
-        self.x = SIZE*2.5
-        self.y = SIZE*2.5
+        self.x = SIZE*random.randint(3,15)
+        self.y = SIZE*random.randint(3,15)
 
     def draw(self):
         self.parent_screen.blit(self.apple,(self.x,self.y))
